@@ -1,7 +1,8 @@
 import React from 'react'
+import ShopMen from './../../assets/men.jpg'
+import ShopWomen from './../../assets/women.jpg'
+import { Route } from 'react-router-dom'
 import './styles.scss'
-import ShopMen from './../../assets/shopMens.jpg'
-import ShopWomen from './../../assets/shopWomens.jpg'
 
 const Directory = (props) => {
   return (
