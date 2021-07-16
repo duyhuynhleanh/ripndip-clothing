@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import './styles.scss'
 import { auth } from '../../firebase/utils'
 import AuthWrapper from '../AuthWrapper/index'
