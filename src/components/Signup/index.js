@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signUpUser, resetAllAuthForms } from '../../redux/User/user.actions'
-import { withRouter } from 'react-router-dom'
-import FormInput from '../forms/FormInput'
-import Button from '../forms/Button'
-import AuthWrapper from '../AuthWrapper/index'
+import { useHistory } from 'react-router-dom'
+import { signUpUserStart } from './../../redux/User/user.actions'
 import './styles.scss'
 
+import AuthWrapper from './../AuthWrapper'
+import FormInput from './../forms/FormInput'
+import Button from './../forms/Button'
+
 const mapState = ({ user }) => ({
-  signUpSuccess: user.signUpSuccess,
-  signUpError: user.signUpError,
+  currentUser: user.currentUser,
+  userErr: user.userErr,
 })
 
 const Signup = (props) => {
-  const { signUpSuccess, signUpError } = useSelector(mapState)
   const dispatch = useDispatch()
+  const history = useHistory()
+  const { currentUser, userErr } = useSelector(mapState)
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,18 +24,17 @@ const Signup = (props) => {
   const [errors, setErrors] = useState([])
 
   useEffect(() => {
-    if (signUpSuccess) {
+    if (currentUser) {
       reset()
-      dispatch(resetAllAuthForms())
-      props.history.push('/')
+      history.push('/')
     }
-  }, [signUpSuccess])
+  }, [currentUser])
 
   useEffect(() => {
-    if (Array.isArray(signUpError) && signUpError.length > 0) {
-      setErrors(signUpError)
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr)
     }
-  }, [signUpError])
+  }, [userErr])
 
   const reset = () => {
     setDisplayName('')
@@ -46,7 +47,7 @@ const Signup = (props) => {
   const handleFormSubmit = (event) => {
     event.preventDefault()
     dispatch(
-      signUpUser({
+      signUpUserStart({
         displayName,
         email,
         password,
@@ -56,7 +57,7 @@ const Signup = (props) => {
   }
 
   const configAuthWrapper = {
-    headline: 'Register',
+    headline: 'Registration',
   }
 
   return (
@@ -69,6 +70,7 @@ const Signup = (props) => {
             })}
           </ul>
         )}
+
         <form onSubmit={handleFormSubmit}>
           <FormInput
             type='text'
@@ -90,7 +92,7 @@ const Signup = (props) => {
             type='password'
             name='password'
             value={password}
-            placeholder='Pass Word'
+            placeholder='Password'
             handleChange={(e) => setPassword(e.target.value)}
           />
 
@@ -109,4 +111,4 @@ const Signup = (props) => {
   )
 }
 
-export default withRouter(Signup)
+export default Signup
