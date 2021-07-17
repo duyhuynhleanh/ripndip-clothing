@@ -12,7 +12,7 @@ const useAuth = (props) => {
     if (!currentUser) {
       props.history.push('/login')
     }
-  }, [currentUser])
+  }, [currentUser]) // eslint-disable-line react-hooks/exhaustive-deps
   return currentUser
 }
 
